@@ -12,6 +12,7 @@ class YonseiCrawler(BaseCrawler):
         # https://www.yonsei.ac.kr/sc/support/notice.jsp
         # TODO : web page change
         super().__init__()
+        self.name = "Yonsei Crawler"
         self.html = None
         self._datetime = datetime.datetime.now()
         self.request_method = request_module.basic_request
@@ -46,7 +47,7 @@ class YonseiCrawler(BaseCrawler):
             mylogger.info(self.data)
 
     def __str__(self):
-        return f"<Yonsei Crawler> | Datetime : {self._datetime} | Address : {self.url}"
+        return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
 
     def _parse_list(self, board):
         try:
@@ -67,6 +68,7 @@ class NoticeMainCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "Notice Main Crawler"
         self.html = None
         self.request_method = request_module.basic_request
 
@@ -95,41 +97,35 @@ class NoticeMainCrawler(BaseCrawler):
             mylogger.info(self.data)
     
     def __str__(self):
-        return f"<Notice Main Crawler> |  Address : {self.url}"
+        return f"<{self.name}> |  Address : {self.url}"
 
 class NoticeCrawler(YonseiCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "Notice Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/notice.jsp"
         self.sub_crawler = NoticeMainCrawler
-
-    def __str__(self):
-        return f"<Notice Crawler> | Datetime : {self._datetime} | Address : {self.url}"
 
 class ExternalCrawler(YonseiCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "External Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/etc_notice.jsp"
         self.sub_crawler = NoticeMainCrawler
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler
 
-    def __str__(self):
-        return f"<External Crawler> | Datetime : {self._datetime} | Address : {self.url}"
-
 class ScholarshipCrawler(YonseiCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "Scholarship Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/scholarship.jsp"
         self.sub_crawler = NoticeMainCrawler
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler
-
-    def __str__(self):
-        return f"<Scholarship Crawler> | Datetime : {self._datetime} | Address : {self.url}"
         
     def _parse_list(self, board): 
         try: 

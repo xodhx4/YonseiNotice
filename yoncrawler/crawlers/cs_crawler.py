@@ -13,6 +13,7 @@ class CsCrawler(BaseCrawler):
     def __init__(self):
         # TODO : web page change
         super().__init__()
+        self.name = "Computer Science Crawler"
         self.html = None
         self._datetime = datetime.datetime.now()
         self.request_method = request_module.basic_request
@@ -51,12 +52,13 @@ class CsCrawler(BaseCrawler):
             mylogger.info(self.data)
 
     def __str__(self):
-        return f"<Computer Science Crawler> | Datetime : {self._datetime} | Address : {self.url}"
+        return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
 
 class CsMainCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "Cs Main Crawler"
         self.html = None
         self.request_method = request_module.basic_request
 
@@ -86,44 +88,37 @@ class CsMainCrawler(BaseCrawler):
             mylogger.info(self.data)
     
     def __str__(self):
-        return f"<Cs Main Crawler> |  Address : {self.url}"
+        return f"<{self.name}> |  Address : {self.url}"
 
 class CsNoticeCrawler(CsCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "CS Faculty Notice Crawler"
         self.url = "http://cs.yonsei.ac.kr/sub05_1.php"
         self.sub_crawler = CsMainCrawler
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler 
 
-    def __str__(self):
-        return f"<CS Faculty Notice Crawler> | Datetime : {self._datetime} | Address : {self.url}"
-
 class CsGraduateNoticeCrawler(CsCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "CS Graduate School Notice Crawler"
         self.url = "http://cs.yonsei.ac.kr/sub05_1.php?nSeq=2"
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler 
         self.sub_crawler = CsMainCrawler
 
-    def __str__(self):
-        return f"<CS Graduate School Notice Crawler> | Datetime : {self._datetime} | Address : {self.url}"
-
 class CsScholarshipCrawler(CsCrawler):
 
     def __init__(self):
         super().__init__()
+        self.name = "CS Scholarship Notice Crawler"
         self.url = "http://cs.yonsei.ac.kr/sub05_1.php?nSeq=3"
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler 
         self.sub_crawler = CsMainCrawler
-
-    def __str__(self):
-        return f"<CS Scholarship Notice Crawler> | Datetime : {self._datetime} | Address : {self.url}"
-
 
     
 if __name__=="__main__":
