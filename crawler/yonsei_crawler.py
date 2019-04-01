@@ -59,6 +59,40 @@ class YonseiCrawler(BaseCrawler):
             mylogger.warn(e)
             return None
 
+class NoticeMainCrawler(BaseCrawler):
+
+    def __init__(self):
+        super().__init__()
+        self.html = None
+        self.crawl_method = basic_crawl
+
+
+    def crawl(self):
+        self.html = self.crawl_method(self.url)
+        # mylogger.debug(self.html)
+
+    def parse(self):
+        try:
+            soup = BeautifulSoup(self.html, 'html.parser')
+        except Exception as e:
+            mylogger.warn(e)
+            
+        board_view = soup.find('dl', {'class' : 'board_view'})
+        title = soup.find('title').text
+        date = board_view.find('span', {'class' : 'date'}).text
+        cont_area = board_view.find('div', {'class' : 'cont_area'})
+        data = {'title' : title, 'date' : date, 'cont_area' : cont_area}
+
+        self._set_data(data)
+    
+    def save(self):
+        # TODO
+        if self.db is None:
+            mylogger.info(self.data)
+    
+    def __str__(self):
+        return f"<Notice Main Crawler> |  Address : {self.url}"
+
 class NoticeCrawler(YonseiCrawler):
 
     def __init__(self):
@@ -109,40 +143,6 @@ class ScholarshipCrawler(YonseiCrawler):
         except Exception as e:
             mylogger.warn(e)
             return None
-
-class NoticeMainCrawler(BaseCrawler):
-
-    def __init__(self):
-        super().__init__()
-        self.html = None
-        self.crawl_method = basic_crawl
-
-
-    def crawl(self):
-        self.html = self.crawl_method(self.url)
-        # mylogger.debug(self.html)
-
-    def parse(self):
-        try:
-            soup = BeautifulSoup(self.html, 'html.parser')
-        except Exception as e:
-            mylogger.warn(e)
-            
-        board_view = soup.find('dl', {'class' : 'board_view'})
-        title = soup.find('title').text
-        date = board_view.find('span', {'class' : 'date'}).text
-        cont_area = board_view.find('div', {'class' : 'cont_area'})
-        data = {'title' : title, 'date' : date, 'cont_area' : cont_area}
-
-        self._set_data(data)
-    
-    def save(self):
-        # TODO
-        if self.db is None:
-            mylogger.info(self.data)
-    
-    def __str__(self):
-        return f"<Notice Main Crawler> |  Address : {self.url}"
 
 if __name__=='__main__':
     n = ScholarshipCrawler()
