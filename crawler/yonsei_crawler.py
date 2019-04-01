@@ -81,6 +81,35 @@ class ExternalCrawler(YonseiCrawler):
     def __str__(self):
         return f"<External Crawler> | Datetime : {self._datetime} | Address : {self.url}"
 
+class ScholarshipCrawler(YonseiCrawler):
+
+    def __init__(self):
+        super().__init__()
+        self.url = "https://www.yonsei.ac.kr/sc/support/scholarship.jsp"
+        self.sub_crawler = NoticeMainCrawler
+        # from test_crawler import EmptyCrawler
+        # self.sub_crawler = EmptyCrawler
+
+    def __str__(self):
+        return f"<Scholarship Crawler> | Datetime : {self._datetime} | Address : {self.url}"
+        
+    def _parse_list(self, board): 
+        try: 
+            href = self.url + board.find('a')['href']
+            title = board.find('strong').text.replace('\r', '').replace('\n', '').replace('\t', '').strip()
+            category = board.find('span', {'class' : 'title'}).find_all(text=True, recursive=False)[2]\
+                .replace('\r', '').replace('\n', '').replace('\t', '').strip()
+            spans = board.find_all('span', {'class' : 'tline'})
+            date = spans[0].text
+            start_date, end_date = date.split("~")
+            board = {'href' : href, 'title': title, 'category' : category, 'start_date' : start_date, 'end_date' : end_date}
+
+            # mylogger.debug(board)
+            return board
+        except Exception as e:
+            mylogger.warn(e)
+            return None
+
 class NoticeMainCrawler(BaseCrawler):
 
     def __init__(self):
@@ -116,5 +145,5 @@ class NoticeMainCrawler(BaseCrawler):
         return f"<Notice Main Crawler> |  Address : {self.url}"
 
 if __name__=='__main__':
-    n = ExternalCrawler()
+    n = ScholarshipCrawler()
     n.start()
