@@ -1,10 +1,10 @@
-from base_cralwer import BaseCrawler, basic_crawl
+from yoncrawler.crawlers.base_cralwer import BaseCrawler
+from yoncrawler.util import logger, request_module
 import datetime
 import requests
 from bs4 import BeautifulSoup
-from logger import getMyLogger
 
-mylogger = getMyLogger()
+mylogger = logger.getMyLogger()
 
 class YonseiCrawler(BaseCrawler):
 
@@ -14,11 +14,11 @@ class YonseiCrawler(BaseCrawler):
         super().__init__()
         self.html = None
         self._datetime = datetime.datetime.now()
-        self.crawl_method = basic_crawl
+        self.request_method = request_module.basic_request
     
         
-    def crawl(self):
-        self.html = self.crawl_method(self.url)
+    def request(self):
+        self.html = self.request_method(self.url)
         # mylogger.debug(self.html)
             
 
@@ -33,6 +33,10 @@ class YonseiCrawler(BaseCrawler):
         board_list = board.find_all('li', {'class' : None})
 
         self._set_data(list(map(self._parse_list, board_list)))
+        # TODO : change safely when
+        # 1. x hsa no href key
+        # 2. x['href'] is None
+        # 3. self.data is None
         self.sublist = [x['href'] for x in self.data]
         # mylogger.debug(self.board_list)
 
@@ -64,11 +68,11 @@ class NoticeMainCrawler(BaseCrawler):
     def __init__(self):
         super().__init__()
         self.html = None
-        self.crawl_method = basic_crawl
+        self.request_method = request_module.basic_request
 
 
-    def crawl(self):
-        self.html = self.crawl_method(self.url)
+    def request(self):
+        self.html = self.request_method(self.url)
         # mylogger.debug(self.html)
 
     def parse(self):
@@ -80,7 +84,7 @@ class NoticeMainCrawler(BaseCrawler):
         board_view = soup.find('dl', {'class' : 'board_view'})
         title = soup.find('title').text
         date = board_view.find('span', {'class' : 'date'}).text
-        cont_area = board_view.find('div', {'class' : 'cont_area'})
+        cont_area = str(board_view.find('div', {'class' : 'cont_area'}))
         data = {'title' : title, 'date' : date, 'cont_area' : cont_area}
 
         self._set_data(data)

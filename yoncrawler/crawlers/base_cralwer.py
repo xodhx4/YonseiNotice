@@ -1,6 +1,5 @@
-import requests
-from logger import getMyLogger
-from abc import *
+from yoncrawler.util.logger import getMyLogger
+from abc import ABC, abstractmethod
 
 class BaseCrawler(ABC):
 
@@ -10,6 +9,7 @@ class BaseCrawler(ABC):
         self._data = None
         self._sublist = None
         self._sub_crawler = None
+        self.logger = getMyLogger()
 
     @property
     def url(self):
@@ -51,6 +51,7 @@ class BaseCrawler(ABC):
         self._data = data
         
     def call_sub_crawler(self):
+        # TODO : Add multi sub_crawler for next page
         if self._sub_crawler is None:
             if self._sublist is not None:
                 raise NotImplementedError
@@ -63,13 +64,15 @@ class BaseCrawler(ABC):
 
     def start(self):
         # TODO
-        self.crawl()
+        self.logger.info(f"{self}\n Crawl Start")
+        self.request()
         self.parse()
         self.save()
         self.call_sub_crawler()
+        self.logger.info(f"{self}\n Crawl End")
     
     @abstractmethod
-    def crawl(self):
+    def request(self):
         raise NotImplementedError
     
     @abstractmethod
@@ -78,22 +81,6 @@ class BaseCrawler(ABC):
 
     @abstractmethod
     def save(self):
+        # TODO : refactoring 
         raise NotImplementedError
 
-
-def basic_crawl(url):
-    mylogger = getMyLogger()
-    mylogger.info(
-        f"Crawl {url}"
-    )
-
-    try:
-        response = requests.get(url)
-        mylogger.info(response)
-    except Exception as e:
-        mylogger.error(
-            f"{url} crawl exception\n" + e.__str__()
-        )
-    
-    return response.text
-    # mylogger.debug(self.html)

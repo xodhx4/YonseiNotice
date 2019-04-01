@@ -13,7 +13,7 @@ def getMyLogger(name='basic'):
         return loggers.get(name)
 
     formatter = logging.Formatter(
-        '%(asctime)s - %(filename)s:%(lineno)s - %(levelname)s - %(message)s')
+        '%(asctime)s - %(filename)s:%(lineno)s - %(funcName)s - %(levelname)s - %(message)s')
     mylogger.setLevel(logging.DEBUG)
 
     # 스트림 핸들러 설정
