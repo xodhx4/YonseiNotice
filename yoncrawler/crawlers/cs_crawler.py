@@ -46,11 +46,6 @@ class CsCrawler(BaseCrawler):
         self._set_data(data)
         self.sublist = [x['href'] for x in self.data]
 
-    def save(self):
-        # TODO
-        if self.db is None:
-            mylogger.info(self.data)
-
     def __str__(self):
         return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
 
@@ -82,10 +77,6 @@ class CsMainCrawler(BaseCrawler):
         self._set_data(data)
         # mylogger.debug(self.data)
     
-    def save(self):
-        # TODO
-        if self.db is None:
-            mylogger.info(self.data)
     
     def __str__(self):
         return f"<{self.name}> |  Address : {self.url}"

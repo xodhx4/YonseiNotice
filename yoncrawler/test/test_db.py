@@ -15,8 +15,8 @@ def test_TinyDBSaver_create_listOfDict():
         if os.path.exists(os.path.join(path, "test.json")):
             os.remove(os.path.join(path,  "test.json"))
             print("Remove File")
-        saver = TinyDBSaver(dir_path=path)
-        _ = saver.create(listOfDict, "test")
+        saver = TinyDBSaver(name='test', dir_path=path)
+        saver.create(listOfDict)
         data = saver.database.all()
         assert listOfDict == data
     except Exception as e:
@@ -27,10 +27,10 @@ def test_TinyDBSaver_create_Dict():
         orgData = {'title': '[외국어학당] 서포터즈 FLI-er 5기 모집 안내', 'date': '2019.03.25', 'cont_area': '<div class="cont_area">\n<p><div class="fr-view"><p><br/><a href="https://fli.yonsei.ac.kr/aca/notice.asp?bidx=1711&amp;bgbn=R" rel="noopener noreferrer" target="_blank"><img class="fr-fic fr-dib" data-alt="" data-file_name="[외국어학당]서포터즈 FLI-er 5기 모집1_페이지_1.jpg" data-height="1200" data-path="/_attach/editor_image/2019-03/mmsemoaazkfa.jpg" data-size="310918" data-success="true" data-width="900" src="/_attach/editor_image/2019-03/mmsemoaazkfa.jpg"/></a></p><p><a href="https://fli.yonsei.ac.kr/aca/notice.asp?bidx=1711&amp;bgbn=R" rel="noopener noreferrer" target="_blank"><img class="fr-fic fr-dib" data-alt="" data-file_name="[외국어학당]서포터즈 FLI-er 5기 모집1_페이지_2.jpg" data-height="1200" data-path="/_attach/editor_image/2019-03/zgsodkyimdvn.jpg" data-size="296511" data-success="true" data-width="900" src="/_attach/editor_image/2019-03/zgsodkyimdvn.jpg"/></a></p></div></p>\n</div>'}
         path = os.path.dirname(__file__)
         if os.path.exists(os.path.join(path, "test.json")):
-            os.remove(os.path.join(path,  "test.json"))
+            os.remove(os.path.join(path, "test.json"))
             print("Remove File")
-        saver = TinyDBSaver(dir_path=path)
-        _ = saver.create(orgData, "test")
+        saver = TinyDBSaver(name="test", dir_path=path)
+        saver.create(orgData)
         data = saver.database.all()
         assert orgData == data[0]
     except Exception as e:
@@ -38,15 +38,15 @@ def test_TinyDBSaver_create_Dict():
 
 def test_TinyDBSaver_read():
     with pytest.raises(NotSupportedError):
-        TinyDBSaver().read()
+        TinyDBSaver(name="test").read()
 
 def test_TinyDBSaver_update():
     with pytest.raises(NotSupportedError):
-        TinyDBSaver().update()
+        TinyDBSaver(name="test").update()
 
 def test_TinyDBSaver_delete():
     with pytest.raises(NotSupportedError):
-        TinyDBSaver().delete()
+        TinyDBSaver(name="test").delete()
 
 
 

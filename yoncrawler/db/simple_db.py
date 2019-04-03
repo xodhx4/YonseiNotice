@@ -6,24 +6,28 @@ import os
 mylogger = getMyLogger()
 
 class TinyDBSaver(BaseDB):
-    def __init__(self, dir_path=os.path.dirname(__file__)):
+    def __init__(self, name, dir_path=os.path.dirname(__file__)):
         super().__init__()
         self.dir = checkDir(dir_path)
-        self.filename = None
-
-    def create(self, data, name):
-        # TODO
         self.filename = name.replace(" ", "_") + ".json"
+        try:
+            self.connect()
+        except Exception as e:
+            mylogger.warn(e)
+            return None
+
+    def connect(self):
         path = os.path.join(self.dir, self.filename)
 
         self.database = TinyDB(path)
+
+    def create(self, data):
+        # TODO
         if isinstance(data, list):
             for x in data:
                 self.database.insert(x)
         else:
             self.database.insert(data)
-
-        return path
 
     def read(self):
         raise NotSupportedError("JsonSaver", "read")

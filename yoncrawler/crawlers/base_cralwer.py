@@ -1,5 +1,6 @@
 from yoncrawler.util.logger import getMyLogger
 from abc import ABC, abstractmethod
+import copy
 
 class BaseCrawler(ABC):
 
@@ -79,8 +80,9 @@ class BaseCrawler(ABC):
     def parse(self):
         raise NotImplementedError
 
-    @abstractmethod
     def save(self):
         # TODO : refactoring 
-        raise NotImplementedError
+        if self.db is None:
+            self.logger.info(self.data)
+            return self.data
 

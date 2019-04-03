@@ -9,6 +9,10 @@ class BaseDB(ABC):
         self.database = None
 
     @abstractmethod
+    def connect(self):
+        raise NotImplementedError
+
+    @abstractmethod
     def create(self):
         raise NotImplementedError
 
@@ -24,11 +28,11 @@ class BaseDB(ABC):
     def delete(self):
         raise NotImplementedError
 
+
 class NotSupportedError(Exception):
     def __init__(self, who, what):
         msg = f"{who} is not support method {what}."
         super().__init__(msg)
-        
 
 
 def checkDir(dir_path):

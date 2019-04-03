@@ -41,10 +41,6 @@ class YonseiCrawler(BaseCrawler):
         self.sublist = [x['href'] for x in self.data]
         # mylogger.debug(self.board_list)
 
-    def save(self):
-        # TODO
-        if self.db is None:
-            mylogger.info(self.data)
 
     def __str__(self):
         return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
@@ -90,11 +86,6 @@ class NoticeMainCrawler(BaseCrawler):
         data = {'title' : title, 'date' : date, 'cont_area' : cont_area}
 
         self._set_data(data)
-    
-    def save(self):
-        # TODO
-        if self.db is None:
-            mylogger.info(self.data)
     
     def __str__(self):
         return f"<{self.name}> |  Address : {self.url}"
