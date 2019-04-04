@@ -10,6 +10,8 @@ class BaseCrawler(ABC):
         self._data = None
         self._sublist = None
         self._sub_crawler = None
+        self.filter_key = None
+        self.name = None
         self.logger = getMyLogger()
 
     @property
@@ -26,7 +28,8 @@ class BaseCrawler(ABC):
     
     @db.setter
     def db(self, db):
-        self._db = db
+        db_instance = db(name=self.name)
+        self._db = db_instance
     
     @property
     def sub_crawler(self):
@@ -49,6 +52,7 @@ class BaseCrawler(ABC):
         return self._data
     
     def _set_data(self, data):
+        data = self.reduce_duplicate(data)
         self._data = data
         
     def call_sub_crawler(self):
@@ -85,4 +89,10 @@ class BaseCrawler(ABC):
         if self.db is None:
             self.logger.info(self.data)
             return self.data
+        self.db.create(self.data)
+    
+    def reduce_duplicate(self, data):
+        if self.db is not None and self.filter_key is not None:
+            data = list(filter(lambda x: len(self.db.read(self.filter_key, x[self.filter_key])) == 0, data))
+        return data
 

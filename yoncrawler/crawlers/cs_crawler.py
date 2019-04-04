@@ -15,6 +15,7 @@ class CsCrawler(BaseCrawler):
         super().__init__()
         self.name = "Computer Science Crawler"
         self.html = None
+        self.filter_key = 'href'
         self._datetime = datetime.datetime.now()
         self.request_method = request_module.basic_request
     
@@ -42,6 +43,7 @@ class CsCrawler(BaseCrawler):
         base_url = "http://cs.yonsei.ac.kr/"
         for x in data:
             x['href'] = base_url + x['href']
+        
             
         self._set_data(data)
         self.sublist = [x['href'] for x in self.data]
@@ -73,6 +75,7 @@ class CsMainCrawler(BaseCrawler):
         data['number'] = board.find("td", {"class" : "hit"}).\
             find("strong").text
         data['content'] = str(soup.find("div", {"class" : "b_cont01"}))
+        data['href'] = self.url
 
         self._set_data(data)
         # mylogger.debug(self.data)

@@ -1,12 +1,12 @@
 from yoncrawler.db.base_db import BaseDB, NotSupportedError, checkDir
 from yoncrawler.util.logger import getMyLogger
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, where
 import os
 
 mylogger = getMyLogger()
 
 class TinyDBSaver(BaseDB):
-    def __init__(self, name, dir_path=os.path.dirname(__file__)):
+    def __init__(self, name, dir_path=os.getcwd()):
         super().__init__()
         self.dir = checkDir(dir_path)
         self.filename = name.replace(" ", "_") + ".json"
@@ -29,8 +29,9 @@ class TinyDBSaver(BaseDB):
         else:
             self.database.insert(data)
 
-    def read(self):
-        raise NotSupportedError("JsonSaver", "read")
+    def read(self, field, value):
+        result = self.database.search(where(field)==value)
+        return result
 
     def update(self):
         raise NotSupportedError("JsonSaver", "update")

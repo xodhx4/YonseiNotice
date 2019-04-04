@@ -13,11 +13,11 @@ class BaseDB(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def create(self):
+    def create(self, data):
         raise NotImplementedError
 
     @abstractmethod
-    def read(self):
+    def read(self, field, value):
         raise NotImplementedError
 
     @abstractmethod

@@ -13,6 +13,7 @@ class YonseiCrawler(BaseCrawler):
         # TODO : web page change
         super().__init__()
         self.name = "Yonsei Crawler"
+        self.filter_key = 'href'
         self.html = None
         self._datetime = datetime.datetime.now()
         self.request_method = request_module.basic_request
@@ -83,7 +84,7 @@ class NoticeMainCrawler(BaseCrawler):
         title = soup.find('title').text
         date = board_view.find('span', {'class' : 'date'}).text
         cont_area = str(board_view.find('div', {'class' : 'cont_area'}))
-        data = {'title' : title, 'date' : date, 'cont_area' : cont_area}
+        data = {'title' : title, 'date' : date, 'cont_area' : cont_area, 'href' : self.url}
 
         self._set_data(data)
     

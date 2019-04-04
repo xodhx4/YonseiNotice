@@ -2,10 +2,6 @@ version: '3'
 services:
   crawler:
     build: 
-      context: ./crawler
-    container_name: crawler
-    # volumes:
-    #   - ./everytime/everytime/logs:/everytime/everytime/logs
-    #   - ./everytime/everytime/result:/everytime/everytime/result
+      context: ./yoncrawler
+    container_name: yoncrawler 
 
-  command: python3 /project/notice_crawler.py
