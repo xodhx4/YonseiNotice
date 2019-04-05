@@ -22,7 +22,6 @@ class TinyDBSaver(BaseDB):
         self.database = TinyDB(path)
 
     def create(self, data):
-        # TODO
         if isinstance(data, list):
             for x in data:
                 self.database.insert(x)

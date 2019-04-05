@@ -1,7 +1,6 @@
 from yoncrawler.util.logger import getMyLogger
 
 def table_parser(table, prepocessing=lambda x:x):
-    # TODO
     mylogger = getMyLogger()
     table = prepocessing(table)
     tablelist = table.find_all('tr')

@@ -14,7 +14,6 @@ from yoncrawler.db.simple_db import TinyDBSaver
 from yoncrawler.db.mongo_db import MongoDBSaver
 
 tmp = os.path.join(os.path.dirname(__file__), 'tmp')
-# TODO
 class EmptyCrawler(BaseCrawler):
 
         

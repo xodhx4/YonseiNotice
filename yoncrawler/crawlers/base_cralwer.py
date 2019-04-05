@@ -70,7 +70,6 @@ class BaseCrawler(ABC):
                 sub_crawler.start()
 
     def start(self):
-        # TODO
         self.logger.info(f"{self}\n Crawl Start")
         self.request()
         self.parse()
@@ -87,7 +86,6 @@ class BaseCrawler(ABC):
         raise NotImplementedError
 
     def save(self):
-        # TODO : refactoring 
         if self.db is None:
             self.logger.info(f"{self.subject} | {self.name} | {self.url} | {self.db} | Insert Suceess")
             return self.data

@@ -13,7 +13,6 @@ from yoncrawler.util.logger import getMyLogger
 from yoncrawler.db.simple_db import TinyDBSaver
 
 tmp = os.path.join(os.path.dirname(__file__), 'tmp')
-# TODO
 
 def simple_running(crawler):
     def fn():
