@@ -6,11 +6,13 @@ from bs4 import BeautifulSoup
 
 
 mylogger = logger.getMyLogger()
+SUBJECT = "School of Business"
 
 class SbCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
+        self.subject = SUBJECT
         self.name = "School of Business Crawler"
         self.html = None
         self.filter_key = 'href'
@@ -47,6 +49,7 @@ class SbMainCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
+        self.subject = SUBJECT
         self.name = "Sb Main Crawler"
         self.html = None
         self.request_method = request_module.basic_request

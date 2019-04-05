@@ -3,6 +3,7 @@ services:
   crawler:
     build: 
       context: ./yoncrawler
+      dockerfile : Dockerfile-test
     container_name: yoncrawler
     depends_on :
       - mongo
@@ -10,13 +11,6 @@ services:
   mongo:
     image: mongo:3.6.1
     container_name: mongodb
-    volumes:
-      - mongodb:/data/db
-      - mongodb_config:/data/configdb
     ports:
       - 27017:27017
     command: mongod
-
-volumes:
-  mongodb:
-  mongodb_config:

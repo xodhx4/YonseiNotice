@@ -11,6 +11,7 @@ from yoncrawler.crawlers import yonsei_crawler, cs_crawler, sb_crawler
 from yoncrawler.util.request_module import basic_request
 from yoncrawler.util.logger import getMyLogger
 from yoncrawler.db.simple_db import TinyDBSaver
+from yoncrawler.db.mongo_db import MongoDBSaver
 
 tmp = os.path.join(os.path.dirname(__file__), 'tmp')
 # TODO
@@ -68,7 +69,9 @@ def crawler_test_templete(crawler):
         try:
             n = crawler()
             n.start()
-            n._db = TinyDBSaver(name=n.name, dir_path=tmp)
+            n._db = TinyDBSaver(table_name=n.name, dir_path=tmp)
+            n.start()
+            n._db = MongoDBSaver(db_name=n.subject, table_name=n.name)
             n.start()
             assert True
         except Exception as e:

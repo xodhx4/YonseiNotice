@@ -1,4 +1,3 @@
-
 from yoncrawler.crawlers.base_cralwer import BaseCrawler
 from yoncrawler.util import logger, request_module, parse_module
 import datetime
@@ -7,12 +6,14 @@ from bs4 import BeautifulSoup
 
 
 mylogger = logger.getMyLogger()
+SUBJECT = "Computer Science"
 
 class CsCrawler(BaseCrawler):
 
     def __init__(self):
         # TODO : web page change
         super().__init__()
+        self.subject = SUBJECT
         self.name = "Computer Science Crawler"
         self.html = None
         self.filter_key = 'href'
@@ -55,6 +56,7 @@ class CsMainCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
+        self.subject = SUBJECT
         self.name = "Cs Main Crawler"
         self.html = None
         self.request_method = request_module.basic_request

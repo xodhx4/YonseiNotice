@@ -11,6 +11,7 @@ class BaseCrawler(ABC):
         self._sublist = None
         self._sub_crawler = None
         self.filter_key = None
+        self.subject = None
         self.name = None
         self.logger = getMyLogger()
 
@@ -28,7 +29,8 @@ class BaseCrawler(ABC):
     
     @db.setter
     def db(self, db):
-        db_instance = db(name=self.name)
+        db_instance = db(db_name=self.subject,
+            table_name=self.name)
         self._db = db_instance
     
     @property
@@ -87,12 +89,13 @@ class BaseCrawler(ABC):
     def save(self):
         # TODO : refactoring 
         if self.db is None:
-            self.logger.info(self.data)
+            self.logger.info(f"{self.subject} | {self.name} | {self.url} | {self.db} | Insert Suceess")
             return self.data
         self.db.create(self.data)
+        self.logger.info(f"{self.subject} | {self.name} | {self.url} | {self.db} | Insert Suceess")
     
     def reduce_duplicate(self, data):
         if self.db is not None and self.filter_key is not None:
-            data = list(filter(lambda x: len(self.db.read(self.filter_key, x[self.filter_key])) == 0, data))
+            data = list(filter(lambda x: self.db.read(self.filter_key, x[self.filter_key]) is None, data))
         return data
 

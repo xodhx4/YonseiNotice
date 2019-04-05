@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 mylogger = logger.getMyLogger()
+SUBJECT = "Yonsei"
 
 class YonseiCrawler(BaseCrawler):
 
@@ -12,6 +13,7 @@ class YonseiCrawler(BaseCrawler):
         # https://www.yonsei.ac.kr/sc/support/notice.jsp
         # TODO : web page change
         super().__init__()
+        self.subject = SUBJECT
         self.name = "Yonsei Crawler"
         self.filter_key = 'href'
         self.html = None
@@ -65,6 +67,7 @@ class NoticeMainCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
+        self.subject = SUBJECT
         self.name = "Notice Main Crawler"
         self.html = None
         self.request_method = request_module.basic_request

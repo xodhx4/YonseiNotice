@@ -6,10 +6,10 @@ import os
 mylogger = getMyLogger()
 
 class TinyDBSaver(BaseDB):
-    def __init__(self, name, dir_path=os.getcwd()):
+    def __init__(self, table_name, db_name=None, dir_path=os.getcwd()):
         super().__init__()
         self.dir = checkDir(dir_path)
-        self.filename = name.replace(" ", "_") + ".json"
+        self.filename = table_name.replace(" ", "_") + ".json"
         try:
             self.connect()
         except Exception as e:
@@ -31,6 +31,8 @@ class TinyDBSaver(BaseDB):
 
     def read(self, field, value):
         result = self.database.search(where(field)==value)
+        if len(result) == 0:
+            return None
         return result
 
     def update(self):
