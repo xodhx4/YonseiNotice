@@ -7,11 +7,28 @@ class BaseDB(ABC):
     def __init__(self):
         self.logger = getMyLogger()
         self.database = None
+        self._table_name = None
+        self._db_name = None
+
+    @property
+    def db_name(self):
+        return self._db_name
+    @property
+    def table_name(self):
+        return self._table_name
+
+    @db_name.setter
+    def db_name(self, db_name):
+        self._db_name = db_name.replace(" ", "_")
+
+    @table_name.setter
+    def table_name(self, table_name):
+        self._table_name = table_name.replace(" ", "_")
 
     @abstractmethod
     def connect(self):
         raise NotImplementedError
-
+    
     @abstractmethod
     def create(self, data):
         raise NotImplementedError
@@ -40,7 +57,7 @@ def checkDir(dir_path):
         path = dir_path
     else:
         mylogger = getMyLogger()
-        mylogger.warn(f"{dir_path} Not exist, so automatically create it")
+        mylogger.warning(f"{dir_path} Not exist, so automatically create it")
         os.makedirs(dir_path)
         path = dir_path
     if (path[-1] == '/') or (path[-1] == '\\'):

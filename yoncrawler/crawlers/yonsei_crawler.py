@@ -30,7 +30,7 @@ class YonseiCrawler(BaseCrawler):
         try:
             soup = BeautifulSoup(self.html, 'html.parser')
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
 
         board = soup.find('ul', {'class' : 'board_list'})
         # mylogger.debug(board)
@@ -41,7 +41,6 @@ class YonseiCrawler(BaseCrawler):
         # 1. x hsa no href key
         # 2. x['href'] is None
         # 3. self.data is None
-        self.sublist = [x['href'] for x in self.data]
         # mylogger.debug(self.board_list)
 
 
@@ -60,7 +59,7 @@ class YonseiCrawler(BaseCrawler):
             # mylogger.debug(board)
             return board
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
             return None
 
 class NoticeMainCrawler(BaseCrawler):
@@ -81,7 +80,7 @@ class NoticeMainCrawler(BaseCrawler):
         try:
             soup = BeautifulSoup(self.html, 'html.parser')
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
             
         board_view = soup.find('dl', {'class' : 'board_view'})
         title = soup.find('title').text
@@ -136,7 +135,7 @@ class ScholarshipCrawler(YonseiCrawler):
             # mylogger.debug(board)
             return board
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
             return None
 
 if __name__=='__main__':

@@ -19,7 +19,7 @@ def table_parser(table, prepocessing=lambda x:x):
             
             return row_dict
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
             return None
 
     data = list(map(row_parse, rows))

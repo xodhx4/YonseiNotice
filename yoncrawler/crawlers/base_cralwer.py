@@ -56,17 +56,23 @@ class BaseCrawler(ABC):
     def _set_data(self, data):
         data = self.reduce_duplicate(data)
         self._data = data
+        if isinstance(data, list):
+            self.sublist = [x['href'] for x in data]
         
     def call_sub_crawler(self):
         # TODO : Add multi sub_crawler for next page
         if self._sub_crawler is None:
             if self._sublist is not None:
                 raise NotImplementedError
-        else:
+        elif self.db is not None:
             # TODO Change to multithread friendly with thread pool
             for sub_url in self._sublist:
                 sub_crawler = self._sub_crawler()
                 sub_crawler.url = sub_url
+                sub_crawler.name = self.name + "__" + sub_crawler.name
+                sub_crawler._db = self.db
+                sub_crawler.db.table_name = sub_crawler.name
+                sub_crawler.db.connect()
                 sub_crawler.start()
 
     def start(self):
@@ -95,5 +101,7 @@ class BaseCrawler(ABC):
     def reduce_duplicate(self, data):
         if self.db is not None and self.filter_key is not None:
             data = list(filter(lambda x: self.db.read(self.filter_key, x[self.filter_key]) is None, data))
+            if len(data) == 0:
+                data = None
         return data
 

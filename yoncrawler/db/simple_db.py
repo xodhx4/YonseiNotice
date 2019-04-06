@@ -6,27 +6,31 @@ import os
 mylogger = getMyLogger()
 
 class TinyDBSaver(BaseDB):
-    def __init__(self, table_name, db_name=None, dir_path=os.getcwd()):
+    def __init__(self, db_name, table_name,  dir_path=os.getcwd()):
         super().__init__()
         self.dir = checkDir(dir_path)
-        self.filename = table_name.replace(" ", "_") + ".json"
+        self.db_name = db_name
+        self.table_name = table_name
         try:
             self.connect()
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
             return None
 
     def connect(self):
-        path = os.path.join(self.dir, self.filename)
+        path = os.path.join(self.dir, self.db_name) + ".json"
 
-        self.database = TinyDB(path)
+        self.database = TinyDB(path).table(self.table_name)
 
     def create(self, data):
         if isinstance(data, list):
             for x in data:
                 self.database.insert(x)
-        else:
+        elif isinstance(data, dict):
             self.database.insert(data)
+        else:
+            mylogger.warning(f"Data type is Not correct : {str(type(data))}")
+
 
     def read(self, field, value):
         result = self.database.search(where(field)==value)

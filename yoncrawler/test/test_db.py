@@ -16,7 +16,7 @@ def test_TinyDBSaver_create_listOfDict():
         if os.path.exists(os.path.join(path, "test.json")):
             os.remove(os.path.join(path,  "test.json"))
             print("Remove File")
-        saver = TinyDBSaver(table_name='test', dir_path=path)
+        saver = TinyDBSaver(db_name="test", table_name='test', dir_path=path)
         saver.create(listOfDict)
         data = saver.database.all()
         assert listOfDict == data
@@ -29,7 +29,7 @@ def test_TinyDBSaver_create_Dict():
         if os.path.exists(os.path.join(path, "test.json")):
             os.remove(os.path.join(path, "test.json"))
             print("Remove File")
-        saver = TinyDBSaver(table_name="test", dir_path=path)
+        saver = TinyDBSaver(db_name="test", table_name="test", dir_path=path)
         saver.create(orgData)
         data = saver.database.all()
         assert orgData == data[0]
@@ -37,7 +37,7 @@ def test_TinyDBSaver_create_Dict():
         pytest.fail(e)
 
 def test_TinyDBSaver_read():
-    saver = TinyDBSaver(table_name="test", dir_path = path)
+    saver = TinyDBSaver(db_name="test", table_name="test", dir_path = path)
     result = saver.read('date', '2019.03.25')
     assert result is not None
     result = saver.read('date', '2019.03.26')
@@ -47,11 +47,11 @@ def test_TinyDBSaver_read():
 
 def test_TinyDBSaver_update():
     with pytest.raises(NotSupportedError):
-        TinyDBSaver(table_name="test", dir_path=path).update()
+        TinyDBSaver(db_name="test", table_name="test", dir_path=path).update()
 
 def test_TinyDBSaver_delete():
     with pytest.raises(NotSupportedError):
-        TinyDBSaver(table_name="test", dir_path=path).delete()
+        TinyDBSaver(db_name="test", table_name="test", dir_path=path).delete()
 
 def test_MongoDBSaver_create_listOfDict():
     try:

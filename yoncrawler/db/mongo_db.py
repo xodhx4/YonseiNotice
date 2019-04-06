@@ -7,13 +7,13 @@ mylogger = getMyLogger()
 class MongoDBSaver(BaseDB):
     def __init__(self, db_name, table_name):
         super().__init__()
-        self.db_name = db_name.replace(" ", "_")
-        self.table_name = table_name.replace(" ", "_")
+        self.db_name = db_name
+        self.table_name = table_name
 
         try:
             self.database = self.connect()
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
             return None
 
     def connect(self):
@@ -28,8 +28,7 @@ class MongoDBSaver(BaseDB):
         elif isinstance(data, dict):
             result = self.database.insert_one(data)
         else:
-            mylogger.warn("Data type is Not correct")
-        mylogger.debug(result)
+            mylogger.warning(f"Data type is Not correct : {str(type(data))}")
 
     def read(self, field, value):
         result = self.database.find_one({field : value})

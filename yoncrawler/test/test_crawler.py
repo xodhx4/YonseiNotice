@@ -68,7 +68,7 @@ def crawler_test_templete(crawler):
         try:
             n = crawler()
             n.start()
-            n._db = TinyDBSaver(table_name=n.name, dir_path=tmp)
+            n._db = TinyDBSaver(db_name = n.subject, table_name=n.name, dir_path=tmp)
             n.start()
             n._db = MongoDBSaver(db_name=n.subject, table_name=n.name)
             n.start()

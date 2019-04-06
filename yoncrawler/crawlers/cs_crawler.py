@@ -29,7 +29,7 @@ class CsCrawler(BaseCrawler):
         try:
             soup = BeautifulSoup(self.html, 'html.parser')
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
         
         board = soup.find('table', {'class' : 'board04'})
 
@@ -47,7 +47,6 @@ class CsCrawler(BaseCrawler):
         
             
         self._set_data(data)
-        self.sublist = [x['href'] for x in self.data]
 
     def __str__(self):
         return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
@@ -69,7 +68,7 @@ class CsMainCrawler(BaseCrawler):
         try:
             soup = BeautifulSoup(self.html, 'html.parser')
         except Exception as e:
-            mylogger.warn(e)
+            mylogger.warning(e)
 
         board = soup.find("table", {"class" : "board05"})
         data = {}
