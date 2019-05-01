@@ -10,10 +10,12 @@ class BaseCrawler(ABC):
         self._data = None
         self._sublist = None
         self._sub_crawler = None
+        self._sub_crawler_list = list() 
         self._page = None
         self.filter_key = None
         self.subject = None
         self.name = None
+        self.recursive = True
         self.logger = getMyLogger()
 
     @property
@@ -43,6 +45,10 @@ class BaseCrawler(ABC):
         self._sub_crawler = crw
     
     @property
+    def sub_crawler_list(self):
+        return self._sub_crawler_list
+    
+    @property
     def sublist(self):
         return self._sublist
 
@@ -60,7 +66,7 @@ class BaseCrawler(ABC):
             try:
                 pg = int(pg)
             except Exception as e:
-                mylogger.warn(e)
+                self.logger.warning(e)
                 return
         self._page = pg
 
@@ -79,16 +85,18 @@ class BaseCrawler(ABC):
         if self._sub_crawler is None:
             if self._sublist is not None:
                 raise NotImplementedError
-        elif self.db is not None:
+        elif self.recursive:
             # TODO Change to multithread friendly with thread pool
             for sub_url in self._sublist:
                 sub_crawler = self._sub_crawler()
                 sub_crawler.url = sub_url
                 sub_crawler.name = self.name + "__" + sub_crawler.name
                 sub_crawler._db = self.db
-                sub_crawler.db.table_name = sub_crawler.name
-                sub_crawler.db.connect()
+                if sub_crawler.db is not None:
+                    sub_crawler.db.table_name = sub_crawler.name
+                    sub_crawler.db.connect()
                 sub_crawler.start()
+                self._sub_crawler_list.append(sub_crawler)
 
     def start(self):
         self.logger.info(f"{self}\n Crawl Start")

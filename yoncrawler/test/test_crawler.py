@@ -7,7 +7,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 from yoncrawler.crawlers.base_cralwer import BaseCrawler
-from yoncrawler.crawlers import yonsei_crawler, cs_crawler, sb_crawler
+from yoncrawler.crawlers import yonsei_crawler, cs_crawler, sb_crawler, ec_crawler
 from yoncrawler.util.request_module import basic_request
 from yoncrawler.util.logger import getMyLogger
 from yoncrawler.db.simple_db import TinyDBSaver
@@ -61,6 +61,22 @@ def test_SbNoticeCrawler_start():
 
 def test_SbCareerCrawler_start():
     fn = crawler_test_templete(sb_crawler.SbCareerCrawler)
+    fn()
+
+def test_EcNoticeCrawler_start():
+    fn = crawler_test_templete(ec_crawler.EcNoticeCrawler)
+    fn()
+
+def test_EcGraduateNoticeCrawler_start():
+    fn = crawler_test_templete(ec_crawler.EcGraduateNoticeCrawler)
+    fn()
+
+def test_EcSeminarCrawler_start():
+    fn = crawler_test_templete(ec_crawler.EcSeminarCrawler)
+    fn()
+
+def test_EcCareerCrawler_start():
+    fn = crawler_test_templete(ec_crawler.EcCareerCrawler)
     fn()
 
 def crawler_test_templete(crawler):

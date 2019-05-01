@@ -1,6 +1,6 @@
 from yoncrawler.util.logger import getMyLogger
 
-def table_parser(table, prepocessing=lambda x:x):
+def table_parser(table, prepocessing=lambda x:x, clean_text=True):
     mylogger = getMyLogger()
     table = prepocessing(table)
     tablelist = table.find_all('tr')
@@ -10,7 +10,12 @@ def table_parser(table, prepocessing=lambda x:x):
 
     def row_parse(row):
         try:
-            values = [tr.text for tr in row.find_all('td')] 
+            if clean_text:
+                values = [
+                    tr.text.replace('\r', '').replace('\n', '').replace('\t', '').strip()
+                    for tr in row.find_all('td')]
+            else:
+                values = [tr.text for tr in row.find_all('td')] 
             values.append(row.find('a')['href']) 
             row_dict = dict() 
             
