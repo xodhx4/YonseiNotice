@@ -18,7 +18,7 @@ def getMyLogger(name='basic'):
 
     # 스트림 핸들러 설정
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.warningING)
+    stream_handler.setLevel(logging.WARN)
     stream_handler.setFormatter(formatter)
 
     # 파일 핸들러 설정
