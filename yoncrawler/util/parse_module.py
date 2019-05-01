@@ -1,5 +1,8 @@
 from yoncrawler.util.logger import getMyLogger
 
+def clean(text):
+    return text.replace('\r', '').replace('\n', '').replace('\t', '').strip()
+
 def table_parser(table, prepocessing=lambda x:x, clean_text=True):
     mylogger = getMyLogger()
     table = prepocessing(table)
@@ -11,8 +14,7 @@ def table_parser(table, prepocessing=lambda x:x, clean_text=True):
     def row_parse(row):
         try:
             if clean_text:
-                values = [
-                    tr.text.replace('\r', '').replace('\n', '').replace('\t', '').strip()
+                values = [clean(tr.text)
                     for tr in row.find_all('td')]
             else:
                 values = [tr.text for tr in row.find_all('td')] 
