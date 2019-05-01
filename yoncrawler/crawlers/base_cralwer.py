@@ -10,6 +10,7 @@ class BaseCrawler(ABC):
         self._data = None
         self._sublist = None
         self._sub_crawler = None
+        self._page = None
         self.filter_key = None
         self.subject = None
         self.name = None
@@ -48,6 +49,20 @@ class BaseCrawler(ABC):
     @sublist.setter
     def sublist(self, subs):
         self._sublist = subs
+
+    @property
+    def page(self):
+        return self._page
+
+    @page.setter
+    def page(self, pg):
+        if not isinstance(pg, int):
+            try:
+                pg = int(pg)
+            except Exception as e:
+                mylogger.warn(e)
+                return
+        self._page = pg
 
     @property
     def data(self):

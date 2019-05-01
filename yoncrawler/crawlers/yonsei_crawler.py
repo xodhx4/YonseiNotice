@@ -61,6 +61,11 @@ class YonseiCrawler(BaseCrawler):
         except Exception as e:
             mylogger.warning(e)
             return None
+    
+    def set_page(self, page):
+        self.page = page
+        if isinstance(self.page, int):
+            self.url = self.url + "?pager.offset=" + str((self.page-1)*10)
 
 class NoticeMainCrawler(BaseCrawler):
 
@@ -95,28 +100,29 @@ class NoticeMainCrawler(BaseCrawler):
 
 class NoticeCrawler(YonseiCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "Notice Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/notice.jsp"
+        self.set_page(page)
         self.sub_crawler = NoticeMainCrawler
 
 class ExternalCrawler(YonseiCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "External Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/etc_notice.jsp"
+        self.set_page(page)
         self.sub_crawler = NoticeMainCrawler
-        # from test_crawler import EmptyCrawler
-        # self.sub_crawler = EmptyCrawler
 
 class ScholarshipCrawler(YonseiCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "Scholarship Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/scholarship.jsp"
+        self.set_page(page)
         self.sub_crawler = NoticeMainCrawler
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler

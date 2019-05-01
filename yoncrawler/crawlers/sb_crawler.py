@@ -40,6 +40,10 @@ class SbCrawler(BaseCrawler):
             
         self._set_data(data)
 
+    def set_page(self, page):
+        self.page = page
+        if isinstance(self.page, int):
+            self.url = self.url + "&page=" + str(self.page)
 
     def __str__(self):
         return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
@@ -79,20 +83,22 @@ class SbMainCrawler(BaseCrawler):
 
 class SbNoticeCrawler(SbCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "Bs Notice Crawler"
         self.url = "https://ysb.yonsei.ac.kr/board.asp?mid=m06_01"
+        self.set_page(page)
         self.sub_crawler = SbMainCrawler
         # from yoncrawler.test.test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler
 
 class SbCareerCrawler(SbCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "Bs Career Crawler"
         self.url = "https://ysb.yonsei.ac.kr/career.asp?mid=m08_03"
+        self.set_page(page)
         self.sub_crawler = SbMainCrawler
         # from yoncrawler.test.test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler
@@ -105,3 +111,4 @@ if __name__=="__main__":
 
     for n in crawlers:
         n().start()
+        print(n.data)

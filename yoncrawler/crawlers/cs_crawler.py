@@ -48,6 +48,11 @@ class CsCrawler(BaseCrawler):
             
         self._set_data(data)
 
+    def set_page(self, page):
+        self.page = page
+        if isinstance(self.page, int):
+            self.url = self.url + "&page=" + str(self.page)
+
     def __str__(self):
         return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
 
@@ -87,30 +92,33 @@ class CsMainCrawler(BaseCrawler):
 
 class CsNoticeCrawler(CsCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "CS Faculty Notice Crawler"
-        self.url = "http://cs.yonsei.ac.kr/sub05_1.php"
+        self.url = "http://cs.yonsei.ac.kr/sub05_1.php?nSeq=1"
+        self.set_page(page)
         self.sub_crawler = CsMainCrawler
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler 
 
 class CsGraduateNoticeCrawler(CsCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "CS Graduate School Notice Crawler"
         self.url = "http://cs.yonsei.ac.kr/sub05_1.php?nSeq=2"
+        self.set_page(page)
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler 
         self.sub_crawler = CsMainCrawler
 
 class CsScholarshipCrawler(CsCrawler):
 
-    def __init__(self):
+    def __init__(self, page=None):
         super().__init__()
         self.name = "CS Scholarship Notice Crawler"
         self.url = "http://cs.yonsei.ac.kr/sub05_1.php?nSeq=3"
+        self.set_page(page)
         # from test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler 
         self.sub_crawler = CsMainCrawler
@@ -125,3 +133,4 @@ if __name__=="__main__":
 
     for n in crawlers:
         n().start()
+        print(n.data)
