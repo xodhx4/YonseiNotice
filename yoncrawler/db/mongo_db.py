@@ -5,10 +5,11 @@ from pymongo import MongoClient
 mylogger = getMyLogger()
 
 class MongoDBSaver(BaseDB):
-    def __init__(self, db_name, table_name):
+    def __init__(self, db_name, table_name, client="mongodb://mongo:27017/"):
         super().__init__()
         self.db_name = db_name
         self.table_name = table_name
+        self.client = client
 
         try:
             self.database = self.connect()
@@ -17,7 +18,7 @@ class MongoDBSaver(BaseDB):
             return None
 
     def connect(self):
-        client = MongoClient("mongodb://mongo:27017/")
+        client = MongoClient(self.client)
         db = client[self.db_name]
         collection = db[self.table_name]
         return collection
