@@ -1,3 +1,4 @@
+# economics와 거의 같음
 from yoncrawler.crawlers.base_cralwer import BaseCrawler
 from yoncrawler.util import logger, request_module, parse_module
 import datetime
@@ -6,20 +7,20 @@ from bs4 import BeautifulSoup
 
 
 mylogger = logger.getMyLogger()
-SUBJECT = "Economics"
+SUBJECT = "Applied Statistics"
 
-class EcCrawler(BaseCrawler):
+class AsCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
         self.subject = SUBJECT
-        self.name = "Economics Crawler"
+        self.name = "Applied Statistics Crawler"
         self.html = None
         self.base_url = None
         self.filter_key = 'href'
         self._datetime = datetime.datetime.now()
         self.request_method = request_module.basic_request
-        self.sub_crawler = EcMainCrawler
+        self.sub_crawler = AsMainCrawler
 
     def request(self):
         self.html = self.request_method(self.url)
@@ -57,12 +58,12 @@ class EcCrawler(BaseCrawler):
     def __str__(self):
         return f"<{self.name}> | Datetime : {self._datetime} | Address : {self.url}"
 
-class EcMainCrawler(BaseCrawler):
+class AsMainCrawler(BaseCrawler):
 
     def __init__(self):
         super().__init__()
         self.subject = SUBJECT
-        self.name = "Ec Main Crawler"
+        self.name = "As Main Crawler"
         self.html = None
         self.request_method = request_module.basic_request
     
@@ -94,52 +95,41 @@ class EcMainCrawler(BaseCrawler):
     def __str__(self):
         return f"<{self.name}> | Address : {self.url}"
 
-class EcNoticeCrawler(EcCrawler):
+class AsNoticeCrawler(AsCrawler):
 
     def __init__(self, page=None):
         super().__init__()
-        self.name = "Ec Faculty Notice Crawler"
-        self.base_url = "https://economics.yonsei.ac.kr/economics/community/under_notice.do"
+        self.name = "As Faculty Notice Crawler"
+        self.base_url = "http://stat.yonsei.ac.kr/stat/board/under_notice.do"
         self.set_page(page)
         # from yoncrawler.test.test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler
 
-class EcGraduateNoticeCrawler(EcCrawler):
+class AsGraduateNoticeCrawler(AsCrawler):
 
     def __init__(self, page=None):
         super().__init__()
-        self.name = "Ec Graduate School Notice Crawler"
-        self.base_url = "https://economics.yonsei.ac.kr/economics/community/grad_notice.do"
+        self.name = "As Graduate School Notice Crawler"
+        self.base_url = "http://stat.yonsei.ac.kr/stat/board/grad_notice.do"
         self.set_page(page)
         # from yoncrawler.test.test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler
 
-class EcSeminarCrawler(EcCrawler):
+class AsCareerCrawler(AsCrawler):
 
     def __init__(self, page=None):
         super().__init__()
-        self.name = "Ec Seminar & conference Crawler"
-        self.base_url = "https://economics.yonsei.ac.kr/economics/community/seminar.do"
-        self.set_page(page)
-        # from yoncrawler.test.test_crawler import EmptyCrawler
-        # self.sub_crawler = EmptyCrawler
-
-class EcCareerCrawler(EcCrawler):
-
-    def __init__(self, page=None):
-        super().__init__()
-        self.name = "Ec Career Crawler"
-        self.base_url = "https://economics.yonsei.ac.kr/economics/community/job.do" 
+        self.name = "As Career Crawler"
+        self.base_url = "http://stat.yonsei.ac.kr/stat/board/job.do" 
         self.set_page(page)
         # from yoncrawler.test.test_crawler import EmptyCrawler
         # self.sub_crawler = EmptyCrawler
 
 if __name__=="__main__":
     crawlers = [
-        EcNoticeCrawler,
-        EcGraduateNoticeCrawler,
-        EcSeminarCrawler,
-        EcCareerCrawler,
+        AsNoticeCrawler,
+        AsGraduateNoticeCrawler,
+        AsCareerCrawler,
     ]
 
     for n in crawlers:

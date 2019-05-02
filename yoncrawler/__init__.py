@@ -3,5 +3,8 @@ from yoncrawler.constructor import (
     getYonseiNoticeJson, getYonseiExternalJson, getYonseiScholarshipJson,
     getCsNotice, getCsGraduateNotice, getCsScholarship,
     getCsNoticeJson, getCsGraduateNoticeJson, getCsScholarshipJson,
-    getSbNotice, getSbCareer, getSbNoticeJson, getSbCareerJson
+    getSbNotice, getSbCareer, getSbNoticeJson, getSbCareerJson,
+    getEcNotice, getEcGraduateNotice, getEcSeminar, getEcCareer,
+    getEcNoticeJson, getEcGraduateNoticeJson, getEcSeminarJson, getEcSeminarJson,
+    
 )

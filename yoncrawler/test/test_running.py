@@ -7,7 +7,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 from yoncrawler.crawlers.base_cralwer import BaseCrawler
-from yoncrawler.crawlers import yonsei_crawler, cs_crawler, sb_crawler, ec_crawler
+from yoncrawler.crawlers import yonsei_crawler, cs_crawler, sb_crawler, ec_crawler, as_crawler
 from yoncrawler.util.request_module import basic_request
 from yoncrawler.util.logger import getMyLogger
 from yoncrawler.db.simple_db import TinyDBSaver
@@ -55,34 +55,26 @@ def page_running(crawler, page):
 #     fn = page_running(sb_crawler.SbNoticeCrawler, page=2)
 #     fn()
 
-def test_EcNoticeCrawler_running():
-    fn = simple_running(ec_crawler.EcNoticeCrawler)
+def test_AsNoticeCrawler_running():
+    fn = simple_running(as_crawler.AsNoticeCrawler)
     fn()
 
-def test_EcGraduateNoticeCrawler_running():
-    fn = simple_running(ec_crawler.EcGraduateNoticeCrawler)
+def test_AsGraduateNoticeCrawler_running():
+    fn = simple_running(as_crawler.AsGraduateNoticeCrawler)
     fn()
 
-def test_EcSeminarCrawler_running():
-    fn = simple_running(ec_crawler.EcSeminarCrawler)
+def test_AsCareerCrawler_running():
+    fn = simple_running(as_crawler.AsCareerCrawler)
     fn()
 
-def test_EcCareerCrawler_running():
-    fn = simple_running(ec_crawler.EcCareerCrawler)
+def test_AsNoticeCrawler_page_running():
+    fn = page_running(as_crawler.AsNoticeCrawler, 2)
     fn()
 
-def test_EcNoticeCrawler_page_running():
-    fn = page_running(ec_crawler.EcNoticeCrawler, 2)
+def test_AsGraduateNoticeCrawler_page_running():
+    fn = page_running(as_crawler.AsGraduateNoticeCrawler, 2)
     fn()
 
-def test_EcGraduateNoticeCrawler_page_running():
-    fn = page_running(ec_crawler.EcGraduateNoticeCrawler, 1)
-    fn()
-
-def test_EcSeminarCrawler_page_running():
-    fn = page_running(ec_crawler.EcSeminarCrawler, 2)
-    fn()
-
-def test_EcCareerCrawler_page_running():
-    fn = page_running(ec_crawler.EcCareerCrawler, 2)
+def test_AsCareerCrawler_page_running():
+    fn = page_running(as_crawler.AsCareerCrawler, 2)
     fn()
