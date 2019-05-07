@@ -4,12 +4,29 @@
 공지 리스트를 크롤링하는 리스트타입 크롤러와 공지 내용을 크롤링하는
 메인 크롤러로 구성되어있습니다.
 
+1. 학부공지 크롤러 (EcNoticeCrawler)
+2. 대학원공지 크롤러 (EcGraduateNoticeCrawler)
+3. 취업게시판 크롤러 (EcCareerCrawler)
+4. 세미나게시판 크롤러 (EcSeminarCrawler)
+
 Examples:
-    학부공지 게시판 크롤링
+    크롤러의 사용방법은 모두 같습니다. 다음은 학부공지 크롤러를
+    활용한 예시입니다.
 
     >>> crawler = EcNoticeCrawler()
     >>> crawler.start()
+    1페이지를 크롤링
+
+    >>> EcNoticeCrawler(3).start()
+    3페이지를 크롤링
+
+    >>> crawler = EcNoticeCrawler()
+    >>> crawler.reculsive = False
+    >>> crawler.start()
+    본문내용 포함하지 않고 크롤링
+
     >>> crawler.data
+    크롤링 결과에 접근
 """
 from yoncrawler.crawlers.base_cralwer import BaseCrawler
 from yoncrawler.util import logger, request_module, parse_module
@@ -176,18 +193,6 @@ class EcNoticeCrawler(EcCrawler):
 
     EcCrawler를 상속한 리스트 크롤러로 db, page, reculsive를 주로 바꾼다.
     사이트 : https://economics.yonsei.ac.kr/economics/community/under_notice.do
-
-    Examples:
-        >>> EcNoticeCrawler().start()
-        1페이지를 크롤링
-
-        >>> EcNoticeCrawler(3).start()
-        3페이지를 크롤링
-
-        >>> c = EcNoticeCrawler()
-        >>> c.reculsive = False
-        >>> c.start()
-        본문내용 포함하지 않고 크롤링
     """
 
     def __init__(self, page=None):
@@ -209,18 +214,6 @@ class EcGraduateNoticeCrawler(EcCrawler):
 
     EcCrawler를 상속한 리스트 크롤러로 db, page, reculsive를 주로 바꾼다.
     사이트 : https://economics.yonsei.ac.kr/economics/community/grad_notice.do
-
-    Examples:
-        >>> EcGraduateNoticeCrawler().start()
-        1페이지를 크롤링
-
-        >>> EcGraduateNoticeCrawler(3).start()
-        3페이지를 크롤링
-
-        >>> c = EcGraduateNoticeCrawler()
-        >>> c.reculsive = False
-        >>> c.start()
-        본문내용 포함하지 않고 크롤링
     """
 
     def __init__(self, page=None):
@@ -242,18 +235,6 @@ class EcSeminarCrawler(EcCrawler):
 
     EcCrawler를 상속한 리스트 크롤러로 db, page, reculsive를 주로 바꾼다.
     사이트 : https://economics.yonsei.ac.kr/economics/community/seminar.do
-
-    Examples:
-        >>> EcSemiarCrawler().start()
-        1페이지를 크롤링
-
-        >>> EcSeminarCrawler(3).start()
-        3페이지를 크롤링
-
-        >>> c = EcSeminarCrawler()
-        >>> c.reculsive = False
-        >>> c.start()
-        본문내용 포함하지 않고 크롤링
     """
 
     def __init__(self, page=None):
@@ -275,18 +256,6 @@ class EcCareerCrawler(EcCrawler):
 
     EcCrawler를 상속한 리스트 크롤러로 db, page, reculsive를 주로 바꾼다.
     사이트 : https://economics.yonsei.ac.kr/economics/community/job.do
-
-    Examples:
-        >>> EcCareerCrawler().start()
-        1페이지를 크롤링
-
-        >>> EcCareerCrawler(3).start()
-        3페이지를 크롤링
-
-        >>> c = EcCareerCrawler()
-        >>> c.reculsive = False
-        >>> c.start()
-        본문내용 포함하지 않고 크롤링
     """
 
     def __init__(self, page=None):
