@@ -1,5 +1,5 @@
 FROM python:3.7
 RUN mkdir /yoncrawler
-ADD . /yoncrawler
+ADD yoncrawler /yoncrawler
 RUN pip install -r /yoncrawler/requirements.txt
 CMD pytest /yoncrawler

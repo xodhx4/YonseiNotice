@@ -102,6 +102,7 @@ def crawler_test_templete(crawler):
             n.start()
             assert True
         except Exception as e:
+            print(n.html)
             pytest.fail(e)
     
     return fn

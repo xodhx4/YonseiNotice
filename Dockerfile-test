@@ -1,0 +1,8 @@
+FROM python:3.7
+RUN mkdir /YonseiNotice
+WORKDIR /YonseiNotice
+ADD . /YonseiNotice
+RUN pip install -r /YonseiNotice/yoncrawler/requirements.txt
+RUN pip install -r /YonseiNotice/requirements_dev.txt
+# CMD pytest /yoncrawler
+CMD pytest --cov-config=.coveragerc --cov-report term --cov=yoncrawler

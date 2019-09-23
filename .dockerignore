@@ -1,1 +1,8 @@
 .git
+*.log
+*.egg-info
+dist
+build
+.tox
+pytest-cache
+yoncrawler-*

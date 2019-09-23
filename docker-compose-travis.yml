@@ -5,14 +5,18 @@ services:
       context: .
       dockerfile : Dockerfile-test
     container_name: yoncrawler
+    volumes:
+      - ./report:/YonseiNotice/report
+    command:
+      - /bin/bash
+      - -c
+      - |
+        pytest --cov-config=.coveragerc --cov-report term --cov=yoncrawler
     depends_on :
       - mongo
-  
   mongo:
     image: mongo:3.6.1
     container_name: mongodb
     ports:
       - 27017:27017
     command: mongod
-
-# docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit
