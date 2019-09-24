@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """The setup script."""
+# bumpversion [major|minor|patch] setup.py 
+# python setup.py sdist bdist_wheel
+# twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+# pip install --index-url https://test.pypi.org/simple/ yoncrawler
+# twine upload --repository-url https://test.pypi.org/legacy/ --skip-existing dist/* (업데이트용)
 
 from setuptools import setup, find_packages
 
@@ -11,14 +16,15 @@ with open('README.md', 'rb') as readme_file:
 # with open('HISTORY.md', 'rb') as history_file:
 #     history = history_file.read().decode('utf-8')
 
-requirements = []
-
-setup_requirements = [
-    'pytest-runner', 
+requirements = [
     'beautifulsoup4',
     'pymongo',
     'requests',
     'tinydb',
+]
+
+setup_requirements = [
+    'pytest-runner', 
     ]
 
 test_requirements = ['pytest>=3', ]

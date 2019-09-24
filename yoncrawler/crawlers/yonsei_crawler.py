@@ -66,11 +66,17 @@ class YonseiCrawler(BaseCrawler):
         self._datetime = datetime.datetime.now()
         self.request_method = request_module.basic_request
         self.sub_crawler = YonseiMainCrawler
+        self.board_no = None
+        self.mode = "list"
 
     def request(self):
         """주어진 request method를 통해 사이트의 html을 request하여 저장
         """
-        self.html = self.request_method(self.url)
+        params = {
+            "mode" : self.mode, 
+            "board_no" : self.board_no, 
+            "pager.offset" : self.page}
+        self.html = self.request_method(self.url, params=params)
         # mylogger.debug(self.html)
 
     def parse(self):
@@ -100,9 +106,10 @@ class YonseiCrawler(BaseCrawler):
         Args:
             page (int or None): 첫 페이지의 경우 대부분 None.
         """
-        self.page = page
+        if not page:
+            page = 1
         if isinstance(self.page, int):
-            self.url = self.url + "?pager.offset=" + str((self.page-1)*10)
+            self.page = str((page-1)*10)
 
     def _parse_list(self, board):
         """공지 리스트 한 개를 파싱하는 모듈
@@ -215,6 +222,7 @@ class NoticeCrawler(YonseiCrawler):
         super().__init__()
         self.name = "Notice Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/notice.jsp"
+        self.board_no = 15
         self.set_page(page)
 
 
@@ -234,6 +242,7 @@ class ExternalCrawler(YonseiCrawler):
         super().__init__()
         self.name = "External Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/etc_notice.jsp"
+        self.board_no = 43
         self.set_page(page)
 
 
@@ -253,6 +262,7 @@ class ScholarshipCrawler(YonseiCrawler):
         super().__init__()
         self.name = "Scholarship Crawler"
         self.url = "https://www.yonsei.ac.kr/sc/support/scholarship.jsp"
+        self.board_no = 29
         self.set_page(page)
 
     def _parse_list(self, board):

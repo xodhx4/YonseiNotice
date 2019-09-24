@@ -2,7 +2,8 @@ from yoncrawler.util.logger import getMyLogger
 from abc import ABC, abstractmethod
 import copy
 
-
+# TODO : 서브크롤러를 돌릴지 말지에 선택할 수 있는 기능 추가
+# TODO : 서브크롤러 결과에 대한 리턴을 받을 수 있어야 함.
 class BaseCrawler(ABC):
     """크롤러클래스를 위한 추상클래스 입니다.
 
@@ -129,8 +130,8 @@ class BaseCrawler(ABC):
         if not isinstance(pg, int):
             try:
                 pg = int(pg)
-            except Exception as e:
-                self.logger.warning(e)
+            except Exception:
+                self.logger.warning(f"Page should be int, but now it is {pg}, type: {type(pg)}")
                 return
         self._page = pg
 

@@ -66,12 +66,22 @@ class CsCrawler(BaseCrawler):
         self.filter_key = 'href'
         self.sub_crawler = CsMainCrawler
         self._datetime = datetime.datetime.now()
+        # self.request_method = request_module.basic_request
         self.request_method = request_module.basic_request
 
     def request(self):
         """주어진 request method를 통해 사이트의 html을 request하여 저장
         """
-        self.html = self.request_method(self.url)
+        headers={
+        "Proxy-Connection" : "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Cookie": "_INSIGHT_CK_8301=62d9962141dea25131283b2bc6708b8c_92350|83d7801103d921a0b19e3b2bc6708b8c_92350:1568894150000; AMCV_686A3E135A2FEC210A495C17%40AdobeOrg=-306458230%7CMCIDTS%7C18160%7CMCMID%7C90200592323401487385831856890001594097%7CMCOPTOUT-1568998437s%7CNONE%7CvVersion%7C3.2.0",
+        "Host": "cs.yonsei.ac.kr",
+        }
+        self.html = self.request_method(self.url, headers=headers)
         # mylogger.debug(self.html)
 
     def parse(self):
@@ -138,6 +148,7 @@ class CsMainCrawler(BaseCrawler):
         self.subject = SUBJECT
         self.name = "Cs Main Crawler"
         self.html = None
+        # self.request_method = request_module.basic_request
         self.request_method = request_module.basic_request
 
     def request(self):

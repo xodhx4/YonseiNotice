@@ -12,6 +12,8 @@ services:
       - -c
       - |
         pytest --cov-config=.coveragerc --cov-report term --cov=yoncrawler
+        cp .coverage report/
+
     depends_on :
       - mongo
   mongo:
