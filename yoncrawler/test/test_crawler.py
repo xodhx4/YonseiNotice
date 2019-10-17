@@ -42,18 +42,18 @@ def test_ScholarshipCrawler_start():
     fn = crawler_test_templete(yonsei_crawler.ScholarshipCrawler)
     fn()
 
-# def test_CsNoticeCrawler_start():
-#     fn = crawler_test_templete(cs_crawler.CsNoticeCrawler)
-#     fn()
+def test_CsNoticeCrawler_start():
+    fn = crawler_test_templete(cs_crawler.CsNoticeCrawler)
+    fn()
 
-# def test_CsGraduateNoticeCrawler_start():
-#     fn = crawler_test_templete(cs_crawler.CsGraduateNoticeCrawler)
-#     fn()
+def test_CsGraduateNoticeCrawler_start():
+    fn = crawler_test_templete(cs_crawler.CsGraduateNoticeCrawler)
+    fn()
 
 
-# def test_CsScholarshipCrawler_start():
-#     fn = crawler_test_templete(cs_crawler.CsScholarshipCrawler)
-#     fn()
+def test_CsScholarshipCrawler_start():
+    fn = crawler_test_templete(cs_crawler.CsScholarshipCrawler)
+    fn()
 
 def test_SbNoticeCrawler_start():
     fn = crawler_test_templete(sb_crawler.SbNoticeCrawler)
@@ -95,6 +95,7 @@ def crawler_test_templete(crawler):
     def fn():
         try:
             n = crawler(page=1)
+            n.sleep = 1
             n.start()
             n._db = TinyDBSaver(db_name = n.subject, table_name=n.name, dir_path=tmp)
             n.start()

@@ -1,5 +1,6 @@
 from yoncrawler.util.logger import getMyLogger
 from abc import ABC, abstractmethod
+from time import sleep
 import copy
 
 # TODO : 서브크롤러를 돌릴지 말지에 선택할 수 있는 기능 추가
@@ -44,6 +45,7 @@ class BaseCrawler(ABC):
         self.name = None
         self.recursive = True
         self.logger = getMyLogger()
+        self.sleep_time = 0
 
     @property
     def url(self):
@@ -60,6 +62,14 @@ class BaseCrawler(ABC):
                 자식클래스에서 사용하지만, 생성된 객체가 사용할 일은 드물다.
         """
         self._url = url
+
+    @property
+    def sleep(self):
+        return self.sleep_time
+
+    @sleep.setter
+    def sleep(self, sleep_time):
+        self.sleep_time = sleep_time
 
     @property
     def db(self):
@@ -180,6 +190,8 @@ class BaseCrawler(ABC):
                 if sub_crawler.db is not None:
                     sub_crawler.db.table_name = sub_crawler.name
                     sub_crawler.db.connect()
+                if self.sleep_time > 0:
+                    sleep(self.sleep_time)
                 sub_crawler.start()
                 self._sub_crawler_list.append(sub_crawler)
 

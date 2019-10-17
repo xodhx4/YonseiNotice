@@ -55,26 +55,26 @@ def page_running(crawler, page):
 #     fn = page_running(sb_crawler.SbNoticeCrawler, page=2)
 #     fn()
 
-def test_AsNoticeCrawler_running():
-    fn = simple_running(as_crawler.AsNoticeCrawler)
-    fn()
+# def test_AsNoticeCrawler_running():
+#     fn = simple_running(as_crawler.AsNoticeCrawler)
+#     fn()
 
-def test_AsGraduateNoticeCrawler_running():
-    fn = simple_running(as_crawler.AsGraduateNoticeCrawler)
-    fn()
+# def test_AsGraduateNoticeCrawler_running():
+#     fn = simple_running(as_crawler.AsGraduateNoticeCrawler)
+#     fn()
 
-def test_AsCareerCrawler_running():
-    fn = simple_running(as_crawler.AsCareerCrawler)
-    fn()
+# def test_AsCareerCrawler_running():
+#     fn = simple_running(as_crawler.AsCareerCrawler)
+#     fn()
 
-def test_AsNoticeCrawler_page_running():
-    fn = page_running(as_crawler.AsNoticeCrawler, 2)
-    fn()
+# def test_AsNoticeCrawler_page_running():
+#     fn = page_running(as_crawler.AsNoticeCrawler, 2)
+#     fn()
 
-def test_AsGraduateNoticeCrawler_page_running():
-    fn = page_running(as_crawler.AsGraduateNoticeCrawler, 2)
-    fn()
+# def test_AsGraduateNoticeCrawler_page_running():
+#     fn = page_running(as_crawler.AsGraduateNoticeCrawler, 2)
+#     fn()
 
-def test_AsCareerCrawler_page_running():
-    fn = page_running(as_crawler.AsCareerCrawler, 2)
-    fn()
+# def test_AsCareerCrawler_page_running():
+#     fn = page_running(as_crawler.AsCareerCrawler, 2)
+#     fn()
