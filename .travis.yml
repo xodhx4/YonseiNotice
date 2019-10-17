@@ -7,7 +7,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - pip install --user tox-travis codecov
-  - mkdir report
 
 before_script:
   - docker-compose -f docker-compose-travis.yml build 
@@ -17,5 +16,5 @@ script:
   - tox
 
 after_success:
-  - cd report && codecov
+  - cp report/.coverage . && codecov
 
