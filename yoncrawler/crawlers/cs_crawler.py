@@ -72,12 +72,9 @@ class CsCrawler(BaseCrawler):
         """주어진 request method를 통해 사이트의 html을 request하여 저장
         """
         headers={
-        "Proxy-Connection" : "keep-alive",
-        "Upgrade-Insecure-Requests": "1",
         "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
         "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Cookie": "_INSIGHT_CK_8301=62d9962141dea25131283b2bc6708b8c_92350|83d7801103d921a0b19e3b2bc6708b8c_92350:1568894150000; AMCV_686A3E135A2FEC210A495C17%40AdobeOrg=-306458230%7CMCIDTS%7C18160%7CMCMID%7C90200592323401487385831856890001594097%7CMCOPTOUT-1568998437s%7CNONE%7CvVersion%7C3.2.0",
         "Host": "cs.yonsei.ac.kr",
         }
         self.html = self.request_method(self.url, headers=headers)
@@ -88,26 +85,27 @@ class CsCrawler(BaseCrawler):
         """
         try:
             soup = BeautifulSoup(self.html, 'html.parser')
+
+            board = soup.find('table', {'class': 'board04'})
+
+            # Change 2nd 번호 to 날짜
+            def fix(table):
+                name = table.find('tr').find_all('th')[2]
+                name.string = "날짜"
+                return table
+
+            data = parse_module.table_parser(board, fix)
+
+            base_url = "http://cs.yonsei.ac.kr/"
+            for x in data:
+                x['href'] = base_url + x['href']
+
+            self._set_data(data)
+            mylogger.debug(data)
+
         except Exception as e:
             mylogger.warning(e)
-
-        board = soup.find('table', {'class': 'board04'})
-
-        # Change 2nd 번호 to 날짜
-        def fix(table):
-            name = table.find('tr').find_all('th')[2]
-            name.string = "날짜"
-            return table
-
-        data = parse_module.table_parser(board, fix)
-
-        base_url = "http://cs.yonsei.ac.kr/"
-        for x in data:
-            x['href'] = base_url + x['href']
-
-        self._set_data(data)
-        mylogger.debug(data)
-
+            mylogger.error(self.html)
     def set_page(self, page):
         """page가 주어졌을 때 page에 알맞은 url로 변경
 
