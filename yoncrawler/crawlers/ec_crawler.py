@@ -75,7 +75,7 @@ class EcCrawler(BaseCrawler):
         """주어진 request method를 통해 사이트의 html을 request하여 저장
         """
         self.html = self.request_method(self.url)
-        # mylogger.debug(self.html)
+        mylogger.debug(self.html)
 
     def parse(self):
         """html 파일을 파싱하여 데이터를 가져옴
@@ -99,7 +99,7 @@ class EcCrawler(BaseCrawler):
             x['href'] = self.base_url + x['href']
 
         self._set_data(data)
-        # mylogger.debug(data)
+        mylogger.debug(data)
 
     def set_page(self, page):
         """page가 주어졌을 때 page에 알맞은 url로 변경
@@ -149,7 +149,7 @@ class EcMainCrawler(BaseCrawler):
         """주어진 request method를 통해 사이트의 html을 request하여 저장
         """
         self.html = self.request_method(self.url)
-        # mylogger.info(self.html)
+        mylogger.debug(self.html)
 
     def parse(self):
         """html을 파싱하여 데이터를 setting
@@ -180,7 +180,7 @@ class EcMainCrawler(BaseCrawler):
         data['href'] = self.url
 
         self._set_data(data)
-        # mylogger.debug(data)
+        mylogger.debug(data)
 
     def __str__(self):
         """출력시 포맷

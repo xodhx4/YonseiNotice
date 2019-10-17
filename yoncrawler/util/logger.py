@@ -4,17 +4,19 @@ import logging
 
 loggers = dict()
 
-def getMyLogger(name='basic'):
+def getMyLogger(name='basic', debug=False):
     global loggers
 
     # 로깅 기본 포멧 설정
-    mylogger = logging.getLogger(name)
     if loggers.get(name):
         return loggers.get(name)
+    mylogger = logging.getLogger(name)
 
     formatter = logging.Formatter(
         '%(asctime)s - %(filename)s:%(lineno)s - %(funcName)s - %(levelname)s - %(message)s')
-    mylogger.setLevel(logging.DEBUG)
+    mylogger.setLevel(logging.INFO)
+    if debug:
+        mylogger.setLevel(logging.DEBUG)
 
     # 스트림 핸들러 설정
     stream_handler = logging.StreamHandler()
@@ -23,7 +25,9 @@ def getMyLogger(name='basic'):
 
     # 파일 핸들러 설정
     file_handler = logging.FileHandler(name + ".log", encoding='utf-8')
-    file_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(logging.INFO)
+    if debug:
+        file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)
 
     # 로깅 핸들러 추가
@@ -33,3 +37,13 @@ def getMyLogger(name='basic'):
     loggers[name] = mylogger
 
     return mylogger
+
+def set_logger_to_debug():
+    mylogger = getMyLogger()
+    mylogger.setLevel(logging.DEBUG)
+    handlers = mylogger.handlers
+
+    for handler in handlers:
+        if isinstance(handler, logging.FileHandler):
+            handler.setLevel(logging.DEBUG)
+            mylogger.info("Change Setting to Debug")
