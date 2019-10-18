@@ -16,5 +16,6 @@ script:
   - tox
 
 after_success:
-  - cp report/.coverage . && codecov
+  - codecov
+  # - cp report/.coverage . && codecov
 

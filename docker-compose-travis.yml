@@ -11,8 +11,8 @@ services:
       - /bin/bash
       - -c
       - |
-        pytest --cov-config=.coveragerc --cov-report term --cov=yoncrawler
-        cp .coverage report/
+        pytest --cov-config=.coveragerc --cov-report xml --cov=yoncrawler
+        # cp .coverage report/
 
     depends_on :
       - mongo

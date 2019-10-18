@@ -2,4 +2,4 @@
 omit = yoncrawler/test/*
 
 [xml]
-output = report
+output = report/coverage.xml
